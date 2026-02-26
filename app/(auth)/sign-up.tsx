@@ -1,5 +1,7 @@
 import { Redirect } from "expo-router";
 
-export default function SignUp() {
+const SignUp = () => {
   return <Redirect href="/sign-in" />;
-}
+};
+
+export default SignUp;
