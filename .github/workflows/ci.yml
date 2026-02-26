@@ -10,8 +10,11 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  format:
+  ci:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        task: [format, lint, type-check, build]
     steps:
       - name: ⬇️ Checkout Repository
         uses: actions/checkout@v4
@@ -19,61 +22,10 @@ jobs:
       - name: 🥟 Setup Bun
         uses: oven-sh/setup-bun@v2
         with:
-          bun-version: latest
+          bun-version: 1.3.9
 
       - name: 📥 Install dependencies
         run: bun install --frozen-lockfile
 
-      - name: 🔬 Format Check
-        run: bun run format
-
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - name: ⬇️ Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: 🥟 Setup Bun
-        uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: latest
-
-      - name: 📥 Install dependencies
-        run: bun install --frozen-lockfile
-
-      - name: 🔬 Lint Check
-        run: bun run lint
-
-  type-check:
-    runs-on: ubuntu-latest
-    steps:
-      - name: ⬇️ Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: 🥟 Setup Bun
-        uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: latest
-
-      - name: 📥 Install dependencies
-        run: bun install --frozen-lockfile
-
-      - name: 🔬 Type Check
-        run: bun run typecheck
-
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: ⬇️ Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: 🥟 Setup Bun
-        uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: latest
-
-      - name: 📥 Install dependencies
-        run: bun install --frozen-lockfile
-
-      - name: 🔬 Build
-        run: bun run build
+      - name: 🔬 ${{ matrix.task }}
+        run: bun run ${{ matrix.task }}
