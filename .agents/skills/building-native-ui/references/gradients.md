@@ -67,14 +67,14 @@ Stack multiple gradients by comma-separating them:
 ### Overlay on Image
 
 ```tsx
-<View style={{ position: 'relative' }}>
-  <Image source={{ uri: '...' }} style={{ width: '100%', height: 200 }} />
+<View style={{ position: "relative" }}>
+  <Image source={{ uri: "..." }} style={{ width: "100%", height: 200 }} />
   <View
     style={{
-      position: 'absolute',
+      position: "absolute",
       inset: 0,
       experimental_backgroundImage:
-        'linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, transparent 50%)',
+        "linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, transparent 50%)",
     }}
   />
 </View>
@@ -86,8 +86,8 @@ Stack multiple gradients by comma-separating them:
 <View
   style={{
     experimental_backgroundImage:
-      'linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)',
-    backdropFilter: 'blur(10px)',
+      "linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)",
+    backdropFilter: "blur(10px)",
   }}
 />
 ```
@@ -98,12 +98,12 @@ Stack multiple gradients by comma-separating them:
 <Pressable
   style={{
     experimental_backgroundImage:
-      'linear-gradient(to bottom, #4CAF50 0%, #388E3C 100%)',
+      "linear-gradient(to bottom, #4CAF50 0%, #388E3C 100%)",
     padding: 16,
     borderRadius: 8,
   }}
 >
-  <Text style={{ color: 'white', textAlign: 'center' }}>Submit</Text>
+  <Text style={{ color: "white", textAlign: "center" }}>Submit</Text>
 </Pressable>
 ```
 

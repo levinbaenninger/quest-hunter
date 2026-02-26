@@ -4,7 +4,7 @@
 
 ```tsx
 // Before
-import { Audio } from 'expo-av';
+import { Audio } from "expo-av";
 
 // After
 import {
@@ -13,7 +13,7 @@ import {
   RecordingPresets,
   AudioModule,
   setAudioModeAsync,
-} from 'expo-audio';
+} from "expo-audio";
 ```
 
 ## Audio Playback
@@ -24,7 +24,7 @@ import {
 const [sound, setSound] = useState<Audio.Sound>();
 
 async function playSound() {
-  const { sound } = await Audio.Sound.createAsync(require('./audio.mp3'));
+  const { sound } = await Audio.Sound.createAsync(require("./audio.mp3"));
   setSound(sound);
   await sound.playAsync();
 }
@@ -41,7 +41,7 @@ useEffect(() => {
 ### After (expo-audio)
 
 ```tsx
-const player = useAudioPlayer(require('./audio.mp3'));
+const player = useAudioPlayer(require("./audio.mp3"));
 
 // Play
 player.play();
@@ -108,7 +108,7 @@ await Audio.setAudioModeAsync({
 await setAudioModeAsync({
   playsInSilentMode: true,
   shouldPlayInBackground: true,
-  interruptionMode: 'doNotMix',
+  interruptionMode: "doNotMix",
 });
 ```
 

@@ -330,7 +330,7 @@ name: Release to App Store
 
 on:
   push:
-    tags: ['v*']
+    tags: ["v*"]
 
 jobs:
   build:
