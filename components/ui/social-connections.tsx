@@ -6,8 +6,6 @@ import * as WebBrowser from "expo-web-browser";
 import { useEffect } from "react";
 import { Image, Platform, View } from "react-native";
 
-WebBrowser.maybeCompleteAuthSession();
-
 function useWarmUpBrowser() {
   useEffect(() => {
     if (Platform.OS === "web") return;
@@ -26,7 +24,9 @@ export function SocialConnections() {
     try {
       const { createdSessionId, setActive } = await startSSOFlow({
         strategy: "oauth_google",
-        redirectUrl: AuthSession.makeRedirectUri(),
+        redirectUrl: AuthSession.makeRedirectUri({
+          path: "/(auth)/oauth-native-callback",
+        }),
       });
 
       if (createdSessionId && setActive) {
