@@ -18,7 +18,11 @@ type ClerkUserEvent = {
 };
 
 const clerkWebhook = httpAction(async (ctx, request) => {
-  const secret = process.env.CLERK_WEBHOOK_SECRET!;
+  const secret = process.env.CLERK_WEBHOOK_SECRET;
+
+  if (!secret) {
+    return new Response("Missing CLERK_WEBHOOK_SECRET", { status: 500 });
+  }
 
   const svixId = request.headers.get("svix-id");
   const svixTimestamp = request.headers.get("svix-timestamp");
