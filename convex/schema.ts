@@ -14,6 +14,14 @@ const schema = defineSchema({
     xp: v.number(),
     imageUrl: v.optional(v.string()),
   }),
+  locations: defineTable({
+    name: v.string(),
+    description: v.string(),
+    coordinates: v.object({
+      latitude: v.number(),
+      longitude: v.number(),
+    }),
+  }),
   users: defineTable({
     clerkId: v.string(),
     email: v.string(),
