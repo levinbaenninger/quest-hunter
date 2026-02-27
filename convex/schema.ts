@@ -3,8 +3,16 @@ import { v } from "convex/values";
 
 const schema = defineSchema({
   quests: defineTable({
-    title: v.string(),
+    name: v.string(),
     description: v.string(),
+    estimatedTime: v.number(),
+    difficulty: v.union(
+      v.literal("easy"),
+      v.literal("medium"),
+      v.literal("hard"),
+    ),
+    xp: v.number(),
+    imageUrl: v.optional(v.string()),
   }),
   users: defineTable({
     clerkId: v.string(),
@@ -13,6 +21,15 @@ const schema = defineSchema({
     lastName: v.optional(v.string()),
     imageUrl: v.optional(v.string()),
   }).index("by_clerk_id", ["clerkId"]),
+  userQuests: defineTable({
+    userId: v.id("users"),
+    questId: v.id("quests"),
+    startedAt: v.number(),
+    completedAt: v.optional(v.number()),
+  })
+    .index("by_user", ["userId"])
+    .index("by_quest", ["questId"])
+    .index("by_user_and_quest", ["userId", "questId"]),
 });
 
 export default schema;
