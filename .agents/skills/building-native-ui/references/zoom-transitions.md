@@ -3,7 +3,7 @@
 Fluid zoom transitions for navigating between screens. iOS 18+, Expo SDK 55+, Stack navigator only.
 
 ```tsx
-import { Link } from 'expo-router';
+import { Link } from "expo-router";
 ```
 
 ## Basic Zoom
@@ -11,11 +11,11 @@ import { Link } from 'expo-router';
 Use `withAppleZoom` on `Link.Trigger` to zoom the entire trigger element into the destination screen:
 
 ```tsx
-<Link href='/photo' asChild>
+<Link href="/photo" asChild>
   <Link.Trigger withAppleZoom>
     <Pressable>
       <Image
-        source={{ uri: 'https://example.com/thumb.jpg' }}
+        source={{ uri: "https://example.com/thumb.jpg" }}
         style={{ width: 120, height: 120, borderRadius: 12 }}
       />
     </Pressable>
@@ -28,12 +28,12 @@ Use `withAppleZoom` on `Link.Trigger` to zoom the entire trigger element into th
 Wrap only the element that should animate. Siblings outside `Link.AppleZoom` are not part of the transition:
 
 ```tsx
-<Link href='/photo' asChild>
+<Link href="/photo" asChild>
   <Link.Trigger>
-    <Pressable style={{ alignItems: 'center' }}>
+    <Pressable style={{ alignItems: "center" }}>
       <Link.AppleZoom>
         <Image
-          source={{ uri: 'https://example.com/thumb.jpg' }}
+          source={{ uri: "https://example.com/thumb.jpg" }}
           style={{ width: 200, aspectRatio: 4 / 3 }}
         />
       </Link.AppleZoom>
@@ -51,15 +51,15 @@ Use `Link.AppleZoomTarget` on the destination screen to align the zoom animation
 
 ```tsx
 // Destination screen (e.g., app/photo.tsx)
-import { Link } from 'expo-router';
+import { Link } from "expo-router";
 
 export default function PhotoScreen() {
   return (
     <View style={{ flex: 1 }}>
       <Link.AppleZoomTarget>
         <Image
-          source={{ uri: 'https://example.com/full.jpg' }}
-          style={{ width: '100%', aspectRatio: 4 / 3 }}
+          source={{ uri: "https://example.com/full.jpg" }}
+          style={{ width: "100%", aspectRatio: 4 / 3 }}
         />
       </Link.AppleZoomTarget>
       <Text>Photo details below</Text>
@@ -76,7 +76,7 @@ For manual control over where the zoom lands on the destination, use `alignmentR
 
 ```tsx
 <Link.AppleZoom alignmentRect={{ x: 0, y: 0, width: 200, height: 300 }}>
-  <Image source={{ uri: 'https://example.com/thumb.jpg' }} />
+  <Image source={{ uri: "https://example.com/thumb.jpg" }} />
 </Link.AppleZoom>
 ```
 
@@ -89,11 +89,11 @@ Zoom screens support interactive dismissal gestures by default (pinch, swipe dow
 ### Disable all dismissal gestures
 
 ```tsx
-import { usePreventZoomTransitionDismissal } from 'expo-router';
+import { usePreventZoomTransitionDismissal } from "expo-router";
 
 export default function PhotoScreen() {
   usePreventZoomTransitionDismissal();
-  return <Image source={{ uri: 'https://example.com/full.jpg' }} />;
+  return <Image source={{ uri: "https://example.com/full.jpg" }} />;
 }
 ```
 
@@ -119,11 +119,11 @@ This is useful when the destination contains a zoomable scroll view — the syst
 Zoom transitions work alongside long-press previews:
 
 ```tsx
-<Link href='/photo' asChild>
+<Link href="/photo" asChild>
   <Link.Trigger withAppleZoom>
     <Pressable>
       <Image
-        source={{ uri: 'https://example.com/thumb.jpg' }}
+        source={{ uri: "https://example.com/thumb.jpg" }}
         style={{ width: 120, height: 120 }}
       />
     </Pressable>

@@ -5,13 +5,13 @@ Use SF Symbols for native feel. Never use FontAwesome or Ionicons.
 ## Basic Usage
 
 ```tsx
-import { SymbolView } from 'expo-symbols';
-import { PlatformColor } from 'react-native';
+import { SymbolView } from "expo-symbols";
+import { PlatformColor } from "react-native";
 
 <SymbolView
-  tintColor={PlatformColor('label')}
-  resizeMode='scaleAspectFit'
-  name='square.and.arrow.down'
+  tintColor={PlatformColor("label")}
+  resizeMode="scaleAspectFit"
+  name="square.and.arrow.down"
   style={{ width: 16, height: 16 }}
 />;
 ```
@@ -20,12 +20,12 @@ import { PlatformColor } from 'react-native';
 
 ```tsx
 <SymbolView
-  name='star.fill' // SF Symbol name (required)
-  tintColor={PlatformColor('label')} // Icon color
+  name="star.fill" // SF Symbol name (required)
+  tintColor={PlatformColor("label")} // Icon color
   size={24} // Shorthand for width/height
-  resizeMode='scaleAspectFit' // How to scale
-  weight='regular' // thin | ultraLight | light | regular | medium | semibold | bold | heavy | black
-  scale='medium' // small | medium | large
+  resizeMode="scaleAspectFit" // How to scale
+  weight="regular" // thin | ultraLight | light | regular | medium | semibold | bold | heavy | black
+  scale="medium" // small | medium | large
   style={{ width: 16, height: 16 }} // Standard style props
 />
 ```
@@ -130,11 +130,11 @@ import { PlatformColor } from 'react-native';
 
 ```tsx
 <SymbolView
-  name='checkmark.circle'
+  name="checkmark.circle"
   animationSpec={{
     effect: {
-      type: 'bounce',
-      direction: 'up',
+      type: "bounce",
+      direction: "up",
     },
   }}
 />
@@ -200,7 +200,7 @@ animationSpec={{
 Some symbols support multiple colors:
 
 ```tsx
-<SymbolView name='cloud.sun.rain.fill' type='multicolor' />
+<SymbolView name="cloud.sun.rain.fill" type="multicolor" />
 ```
 
 ## Finding Symbol Names

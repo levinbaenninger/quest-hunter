@@ -57,8 +57,8 @@ jobs:
   publish:
     type: update
     params:
-      branch: 'pr-${{ github.event.pull_request.number }}'
-      message: 'PR #${{ github.event.pull_request.number }}'
+      branch: "pr-${{ github.event.pull_request.number }}"
+      message: "PR #${{ github.event.pull_request.number }}"
 ```
 
 ## Production Release
@@ -70,7 +70,7 @@ name: Release
 
 on:
   push:
-    tags: ['v*']
+    tags: ["v*"]
 
 jobs:
   build-ios:
@@ -158,11 +158,11 @@ jobs:
 on:
   push:
     branches: [main, develop]
-    tags: ['v*']
+    tags: ["v*"]
   pull_request:
     types: [opened, synchronize, reopened]
   schedule:
-    - cron: '0 0 * * *' # Daily at midnight
+    - cron: "0 0 * * *" # Daily at midnight
   workflow_dispatch: # Manual trigger
 ```
 

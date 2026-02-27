@@ -75,12 +75,12 @@ For loaders without params, a plain async function works:
 
 ```tsx
 // app/posts/index.tsx
-import { Suspense } from 'react';
-import { useLoaderData } from 'expo-router';
-import { ActivityIndicator, View, Text } from 'react-native';
+import { Suspense } from "react";
+import { useLoaderData } from "expo-router";
+import { ActivityIndicator, View, Text } from "react-native";
 
 export async function loader() {
-  const response = await fetch('https://api.example.com/posts');
+  const response = await fetch("https://api.example.com/posts");
   const posts = await response.json();
   return { posts };
 }
@@ -99,7 +99,7 @@ function PostList() {
 
 export default function Posts() {
   return (
-    <Suspense fallback={<ActivityIndicator size='large' />}>
+    <Suspense fallback={<ActivityIndicator size="large" />}>
       <PostList />
     </Suspense>
   );
@@ -114,10 +114,10 @@ For loaders with params, use the `LoaderFunction<T>` type from `expo-server`. Th
 
 ```tsx
 // app/posts/[id].tsx
-import { Suspense } from 'react';
-import { useLoaderData } from 'expo-router';
-import { StatusError, type LoaderFunction } from 'expo-server';
-import { ActivityIndicator, View, Text } from 'react-native';
+import { Suspense } from "react";
+import { useLoaderData } from "expo-router";
+import { StatusError, type LoaderFunction } from "expo-server";
+import { ActivityIndicator, View, Text } from "react-native";
 
 type Post = {
   id: number;
@@ -153,7 +153,7 @@ function PostContent() {
 
 export default function PostDetail() {
   return (
-    <Suspense fallback={<ActivityIndicator size='large' />}>
+    <Suspense fallback={<ActivityIndicator size="large" />}>
       <PostContent />
     </Suspense>
   );
@@ -164,13 +164,13 @@ Catch-all routes access `params.slug` the same way:
 
 ```tsx
 // app/docs/[...slug].tsx
-import { type LoaderFunction } from 'expo-server';
+import { type LoaderFunction } from "expo-server";
 
 type Doc = { title: string; content: string };
 
 export const loader: LoaderFunction<{ doc: Doc }> = async (request, params) => {
   const slug = params.slug as string[];
-  const path = slug.join('/');
+  const path = slug.join("/");
   const doc = await fetchDoc(path);
   return { doc };
 };
@@ -180,15 +180,15 @@ Query parameters are available via the `request` object (server output mode only
 
 ```tsx
 // app/search.tsx
-import { type LoaderFunction } from 'expo-server';
+import { type LoaderFunction } from "expo-server";
 
 export const loader: LoaderFunction<{ results: any[]; query: string }> = async (
   request,
 ) => {
   // Assuming request.url is `/search?q=expo&page=2`
   const url = new URL(request!.url);
-  const query = url.searchParams.get('q') ?? '';
-  const page = Number(url.searchParams.get('page') ?? '1');
+  const query = url.searchParams.get("q") ?? "";
+  const page = Number(url.searchParams.get("page") ?? "1");
 
   const results = await fetchSearchResults(query, page);
   return { results, query };
@@ -201,20 +201,20 @@ Loaders run on the server, so you can access secrets and server-only resources d
 
 ```tsx
 // app/dashboard.tsx
-import { type LoaderFunction } from 'expo-server';
+import { type LoaderFunction } from "expo-server";
 
 export const loader: LoaderFunction<{
   balance: any;
   isAuthenticated: boolean;
 }> = async (request, params) => {
-  const data = await fetch('https://api.stripe.com/v1/balance', {
+  const data = await fetch("https://api.stripe.com/v1/balance", {
     headers: {
       Authorization: `Bearer ${process.env.STRIPE_SECRET_KEY}`,
     },
   });
 
   const sessionToken = request?.headers
-    .get('cookie')
+    .get("cookie")
     ?.match(/session=([^;]+)/)?.[1];
 
   const balance = await data.json();
@@ -230,11 +230,11 @@ The `request` object is available in server output mode. In static output mode, 
 
 ```tsx
 // app/products.tsx
-import { setResponseHeaders } from 'expo-server';
+import { setResponseHeaders } from "expo-server";
 
 export async function loader() {
   setResponseHeaders({
-    'Cache-Control': 'public, max-age=300',
+    "Cache-Control": "public, max-age=300",
   });
 
   const products = await fetchProducts();
@@ -246,7 +246,7 @@ export async function loader() {
 
 ```tsx
 // app/products/[id].tsx
-import { StatusError, type LoaderFunction } from 'expo-server';
+import { StatusError, type LoaderFunction } from "expo-server";
 
 export const loader: LoaderFunction<{ product: Product }> = async (
   request,
@@ -256,7 +256,7 @@ export const loader: LoaderFunction<{ product: Product }> = async (
   const product = await fetchProduct(id);
 
   if (!product) {
-    throw new StatusError(404, 'Product not found');
+    throw new StatusError(404, "Product not found");
   }
 
   return { product };
@@ -271,12 +271,12 @@ export const loader: LoaderFunction<{ product: Product }> = async (
 
 ```tsx
 // app/posts/index.tsx
-import { Suspense } from 'react';
-import { useLoaderData } from 'expo-router';
-import { ActivityIndicator, View, Text } from 'react-native';
+import { Suspense } from "react";
+import { useLoaderData } from "expo-router";
+import { ActivityIndicator, View, Text } from "react-native";
 
 export async function loader() {
-  const response = await fetch('https://api.example.com/posts');
+  const response = await fetch("https://api.example.com/posts");
   return { posts: await response.json() };
 }
 
@@ -297,9 +297,9 @@ export default function Posts() {
     <Suspense
       fallback={
         <View
-          style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
         >
-          <ActivityIndicator size='large' />
+          <ActivityIndicator size="large" />
         </View>
       }
     >
@@ -317,7 +317,7 @@ The `<Suspense>` boundary must be above the component calling `useLoaderData()`.
 // app/posts/[id].tsx
 export function ErrorBoundary({ error }: { error: Error }) {
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
       <Text>Error: {error.message}</Text>
     </View>
   );

@@ -1,7 +1,4 @@
 /** @type {import('prettier').Config} */
-const config = {
-  singleQuote: true,
-  jsxSingleQuote: true,
-};
+const config = {};
 
 export default config;
