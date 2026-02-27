@@ -34,6 +34,7 @@ const schema = defineSchema({
     questId: v.id("quests"),
     startedAt: v.number(),
     completedAt: v.optional(v.number()),
+    cancelledAt: v.optional(v.number()),
   })
     .index("by_user", ["userId"])
     .index("by_quest", ["questId"])
