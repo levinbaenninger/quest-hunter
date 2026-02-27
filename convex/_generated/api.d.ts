@@ -10,6 +10,7 @@
 
 import type * as locations from "../locations.js";
 import type * as quests from "../quests.js";
+import type * as users from "../users.js";
 
 import type {
   ApiFromModules,
@@ -20,6 +21,7 @@ import type {
 declare const fullApi: ApiFromModules<{
   locations: typeof locations;
   quests: typeof quests;
+  users: typeof users;
 }>;
 
 /**
