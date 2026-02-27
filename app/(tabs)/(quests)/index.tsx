@@ -11,7 +11,7 @@ const QuestsScreen = () => {
     <Screen>
       <View className="gap-3">
         {quests?.map((quest) => (
-          <Text key={quest._id}>{quest.title}</Text>
+          <Text key={quest._id}>{quest.name}</Text>
         ))}
       </View>
     </Screen>
