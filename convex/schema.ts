@@ -15,13 +15,26 @@ const schema = defineSchema({
     imageUrl: v.optional(v.string()),
   }),
   locations: defineTable({
+    questId: v.id("quests"),
     name: v.string(),
     description: v.string(),
     coordinates: v.object({
       latitude: v.number(),
       longitude: v.number(),
     }),
-  }),
+    order: v.number(),
+  })
+    .index("by_quest", ["questId"])
+    .index("by_quest_order", ["questId", "order"]),
+  userLocations: defineTable({
+    userId: v.id("users"),
+    questId: v.id("quests"),
+    locationId: v.id("locations"),
+    photoStorageId: v.id("_storage"),
+    completedAt: v.number(),
+  })
+    .index("by_user_and_quest", ["userId", "questId"])
+    .index("by_user_and_location", ["userId", "locationId"]),
   users: defineTable({
     clerkId: v.string(),
     email: v.string(),
