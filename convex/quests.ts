@@ -169,6 +169,22 @@ export const complete = mutation({
       throw new ConvexError("Quest has been cancelled");
     if (userQuest.completedAt) throw new ConvexError("Quest already completed");
 
+    const [questLocations, completedLocations] = await Promise.all([
+      ctx.db
+        .query("locations")
+        .withIndex("by_quest", (q) => q.eq("questId", questId))
+        .collect(),
+      ctx.db
+        .query("userLocations")
+        .withIndex("by_user_and_quest", (q) =>
+          q.eq("userId", user._id).eq("questId", questId),
+        )
+        .collect(),
+    ]);
+
+    if (completedLocations.length < questLocations.length)
+      throw new ConvexError("Quest not finished");
+
     await ctx.db.patch(userQuest._id, { completedAt: Date.now() });
   },
 });

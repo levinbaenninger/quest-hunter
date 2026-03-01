@@ -77,6 +77,9 @@ export const complete = mutation({
       .unique();
     if (existing) throw new ConvexError("Location already completed");
 
+    const storageUrl = await ctx.storage.getUrl(photoStorageId);
+    if (!storageUrl) throw new ConvexError("Photo not found in storage");
+
     return await ctx.db.insert("userLocations", {
       userId: user._id,
       questId,
