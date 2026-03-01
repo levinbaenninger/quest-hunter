@@ -4,6 +4,16 @@ import { requireUser } from "./_utils/user";
 
 const SEVEN_DAYS_MS = 7 * 24 * 60 * 60 * 1000;
 
+function deriveCompletedQuestIds(
+  userQuests: { questId: string; completedAt?: number }[],
+): Set<string> {
+  return new Set(
+    userQuests
+      .filter((uq) => uq.completedAt !== undefined)
+      .map((uq) => uq.questId),
+  );
+}
+
 export const get = query({
   args: {
     questId: v.id("quests"),
@@ -31,11 +41,7 @@ export const listRecommended = query({
         .collect(),
     ]);
 
-    const completedQuestIds = new Set(
-      userQuests
-        .filter((uq) => uq.completedAt !== undefined)
-        .map((uq) => uq.questId),
-    );
+    const completedQuestIds = deriveCompletedQuestIds(userQuests);
 
     return allQuests.filter((quest) => !completedQuestIds.has(quest._id));
   },
@@ -56,11 +62,7 @@ export const listNew = query({
         .collect(),
     ]);
 
-    const completedQuestIds = new Set(
-      userQuests
-        .filter((uq) => uq.completedAt !== undefined)
-        .map((uq) => uq.questId),
-    );
+    const completedQuestIds = deriveCompletedQuestIds(userQuests);
 
     return allQuests.filter(
       (quest) =>
@@ -182,7 +184,9 @@ export const complete = mutation({
         .collect(),
     ]);
 
-    if (completedLocations.length < questLocations.length)
+    const requiredIds = new Set(questLocations.map((l) => l._id));
+    const completedIds = new Set(completedLocations.map((cl) => cl.locationId));
+    if ([...requiredIds].some((id) => !completedIds.has(id)))
       throw new ConvexError("Quest not finished");
 
     await ctx.db.patch(userQuest._id, { completedAt: Date.now() });
