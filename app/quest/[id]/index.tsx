@@ -27,13 +27,7 @@ const QuestDetail = () => {
     questId: id as Id<"quests">,
   });
 
-  const firstLocationId = locations?.[0]?._id;
   const startQuest = useMutation(api.quests.start);
-
-  const handleStartQuest = async () => {
-    await startQuest({ questId: id as Id<"quests"> });
-    router.navigate(`/quest/${id}/location/${firstLocationId}`);
-  };
 
   if (quest === undefined || locations === undefined) {
     return (
@@ -45,6 +39,13 @@ const QuestDetail = () => {
       </>
     );
   }
+
+  const firstLocationId = locations[0]._id;
+
+  const handleStartQuest = async () => {
+    await startQuest({ questId: id as Id<"quests"> });
+    router.navigate(`/quest/${id}/location/${firstLocationId}`);
+  };
 
   return (
     <>

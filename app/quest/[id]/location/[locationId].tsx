@@ -9,6 +9,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import { Map } from "@/components/ui/map";
 import { Screen } from "@/components/ui/screen";
 import { Text } from "@/components/ui/text";
 import { api } from "@/convex/_generated/api";
@@ -113,19 +114,21 @@ const LocationScreen = () => {
         options={{
           title: location.name,
           headerBackVisible: false,
+          headerLargeTitle: true,
           headerRight: () => (
-            <Pressable onPress={() => setCancelDialogOpen(true)}>
+            <Pressable
+              onPress={() => setCancelDialogOpen(true)}
+              className="pl-1.5"
+            >
               <Ionicons name="close" size={24} />
             </Pressable>
           ),
         }}
       />
       <View className="flex-1">
-        <Screen>
-          <View className="gap-3">
-            {/* <Map coordinates={location.coordinates} /> */}
-            <Text>{location.description}</Text>
-          </View>
+        <Screen className="gap-2">
+          <Map coordinates={location.coordinates} />
+          <Text>{location.description}</Text>
         </Screen>
 
         <View className="border-border bg-background border-t p-4 pb-8">
@@ -147,7 +150,7 @@ const LocationScreen = () => {
       >
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Quest abgeschlossen! 🎉</AlertDialogTitle>
+            <AlertDialogTitle>Quest abgeschlossen!</AlertDialogTitle>
             <AlertDialogDescription>
               Du hast diese Quest erfolgreich abgeschlossen.
             </AlertDialogDescription>
