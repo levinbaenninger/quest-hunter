@@ -27,7 +27,7 @@ const QuestDetail = () => {
     questId: id as Id<"quests">,
   });
 
-  const firstLocationId = locations?.find((loc) => loc.order === 0)?._id;
+  const firstLocationId = locations?.[0]?._id;
   const startQuest = useMutation(api.quests.start);
 
   const handleStartQuest = async () => {

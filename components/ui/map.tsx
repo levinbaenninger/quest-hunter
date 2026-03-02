@@ -1,3 +1,4 @@
+import { Text } from "@/components/ui/text";
 import { AppleMaps, Coordinates, GoogleMaps } from "expo-maps";
 import { Platform } from "react-native";
 
@@ -21,6 +22,11 @@ function Map({ coordinates }: { coordinates: Coordinates }) {
       />
     );
   }
+  return (
+    <>
+      <Text>This action is not supported on this platform.</Text>
+    </>
+  );
 }
 
 export { Map };
