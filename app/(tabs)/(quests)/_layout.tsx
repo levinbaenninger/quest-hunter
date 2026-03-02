@@ -9,7 +9,11 @@ const QuestsStack = () => {
       />
       <Stack.Screen
         name="[id]"
-        options={{ title: "Quest", headerLargeTitleEnabled: false }}
+        options={{
+          title: "Quest",
+          headerLargeTitleEnabled: true,
+          headerBackButtonDisplayMode: "minimal",
+        }}
       />
     </Stack>
   );

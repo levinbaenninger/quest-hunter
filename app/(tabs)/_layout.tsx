@@ -4,7 +4,7 @@ const TabLayout = () => {
   return (
     <NativeTabs minimizeBehavior="onScrollDown">
       <NativeTabs.Trigger name="(quests)">
-        <Icon sf="scroll.fill" />
+        <Icon sf="safari.fill" />
         <Label>Quests</Label>
       </NativeTabs.Trigger>
       <NativeTabs.Trigger name="(leaderboard)">

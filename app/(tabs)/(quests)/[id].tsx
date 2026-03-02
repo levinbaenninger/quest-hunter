@@ -1,4 +1,4 @@
-import Screen from "@/components/ui/screen";
+import { Screen } from "@/components/ui/screen";
 import { Text } from "@/components/ui/text";
 import { useLocalSearchParams } from "expo-router";
 

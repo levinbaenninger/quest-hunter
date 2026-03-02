@@ -7,12 +7,10 @@ type ScreenProps = {
   className?: string;
 };
 
-const Screen = ({ children, className }: ScreenProps) => {
+export const Screen = ({ children, className }: ScreenProps) => {
   return (
     <ScrollView contentInsetAdjustmentBehavior="automatic">
       <View className={cn("p-4", className)}>{children}</View>
     </ScrollView>
   );
 };
-
-export default Screen;
