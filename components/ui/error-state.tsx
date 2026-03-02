@@ -14,7 +14,7 @@ export const ErrorState = ({
   onRetry,
 }: ErrorStateProps) => (
   <ScrollView contentContainerClassName="grow items-center justify-center gap-1 pt-8">
-    <View className="gap-0.5">
+    <View className="gap-0.5 items-center">
       <Text className="font-semibold">{title}</Text>
       {description && (
         <Text className="text-muted-foreground text-center text-sm">

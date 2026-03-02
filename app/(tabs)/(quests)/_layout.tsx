@@ -7,14 +7,6 @@ const QuestsStack = () => {
         name="index"
         options={{ title: "Quests", headerLargeTitleEnabled: true }}
       />
-      <Stack.Screen
-        name="[id]"
-        options={{
-          title: "Quest",
-          headerLargeTitleEnabled: true,
-          headerBackButtonDisplayMode: "minimal",
-        }}
-      />
     </Stack>
   );
 };

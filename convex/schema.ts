@@ -12,7 +12,15 @@ const schema = defineSchema({
       v.literal("hard"),
     ),
     xp: v.number(),
-    imageUrl: v.optional(v.string()),
+    category: v.union(
+      v.literal("adventure"),
+      v.literal("history"),
+      v.literal("culture"),
+      v.literal("nature"),
+      v.literal("food"),
+      v.literal("drink"),
+    ),
+    imageUrl: v.string(),
   }),
   locations: defineTable({
     questId: v.id("quests"),

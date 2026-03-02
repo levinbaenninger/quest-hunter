@@ -1,12 +1,12 @@
 import { convex } from "@/lib/convex-client";
 import { ClerkProvider, useAuth } from "@clerk/clerk-expo";
 import { tokenCache } from "@clerk/clerk-expo/token-cache";
-import { PortalHost } from "@rn-primitives/portal";
 import {
   DarkTheme,
   DefaultTheme,
   ThemeProvider,
 } from "@react-navigation/native";
+import { PortalHost } from "@rn-primitives/portal";
 import { ConvexProviderWithClerk } from "convex/react-clerk";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
@@ -24,6 +24,13 @@ const RootLayoutNav = () => {
       <Stack>
         <Stack.Protected guard={isSignedIn ?? false}>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen
+            name="quest/[id]"
+            options={{
+              headerLargeTitleEnabled: true,
+              headerBackButtonDisplayMode: "minimal",
+            }}
+          />
         </Stack.Protected>
         <Stack.Screen name="(auth)" options={{ headerShown: false }} />
       </Stack>
