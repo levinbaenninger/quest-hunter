@@ -90,6 +90,21 @@ export const listFinished = query({
   },
 });
 
+export const listInProgress = query({
+  args: {},
+  handler: async (ctx) => {
+    const user = await requireUser(ctx);
+
+    const userQuests = await ctx.db
+      .query("userQuests")
+      .withIndex("by_user", (q) => q.eq("userId", user._id))
+      .filter((q) => q.eq(q.field("completedAt"), undefined))
+      .collect();
+
+    return userQuests.map((uq) => uq.questId);
+  },
+});
+
 export const getStatus = query({
   args: {
     questId: v.id("quests"),
@@ -126,22 +141,7 @@ export const start = mutation({
     if (existing) {
       if (existing.completedAt)
         throw new ConvexError("Quest already completed");
-      if (!existing.cancelledAt)
-        throw new ConvexError("Quest already in progress");
-
-      // Clear previous location progress so the restart begins from waypoint 1
-      const previousLocations = await ctx.db
-        .query("userLocations")
-        .withIndex("by_user_and_quest", (q) =>
-          q.eq("userId", user._id).eq("questId", questId),
-        )
-        .collect();
-      await Promise.all(previousLocations.map((ul) => ctx.db.delete(ul._id)));
-
-      return await ctx.db.patch(existing._id, {
-        cancelledAt: undefined,
-        startedAt: Date.now(),
-      });
+      throw new ConvexError("Quest already in progress");
     }
 
     return await ctx.db.insert("userQuests", {
@@ -167,8 +167,6 @@ export const complete = mutation({
       .unique();
 
     if (!userQuest) throw new ConvexError("Quest not started");
-    if (userQuest.cancelledAt)
-      throw new ConvexError("Quest has been cancelled");
     if (userQuest.completedAt) throw new ConvexError("Quest already completed");
 
     const [questLocations, completedLocations] = await Promise.all([
@@ -190,27 +188,5 @@ export const complete = mutation({
       throw new ConvexError("Quest not finished");
 
     await ctx.db.patch(userQuest._id, { completedAt: Date.now() });
-  },
-});
-
-export const cancel = mutation({
-  args: {
-    questId: v.id("quests"),
-  },
-  handler: async (ctx, { questId }) => {
-    const user = await requireUser(ctx);
-
-    const userQuest = await ctx.db
-      .query("userQuests")
-      .withIndex("by_user_and_quest", (q) =>
-        q.eq("userId", user._id).eq("questId", questId),
-      )
-      .unique();
-
-    if (!userQuest) throw new ConvexError("Quest not started");
-    if (userQuest.completedAt) throw new ConvexError("Quest already completed");
-    if (userQuest.cancelledAt) throw new ConvexError("Quest already cancelled");
-
-    await ctx.db.patch(userQuest._id, { cancelledAt: Date.now() });
   },
 });
