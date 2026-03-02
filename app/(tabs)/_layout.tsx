@@ -1,9 +1,10 @@
+import { THEME } from "@/lib/theme";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Tabs } from "expo-router";
 
 const TabLayout = () => {
   return (
-    <Tabs>
+    <Tabs screenOptions={{ tabBarActiveTintColor: THEME.primary }}>
       <Tabs.Screen
         name="(quests)"
         options={{
