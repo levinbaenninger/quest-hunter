@@ -5,6 +5,7 @@ import { Screen } from "@/components/ui/screen";
 import { Text } from "@/components/ui/text";
 import { api } from "@/convex/_generated/api";
 import type { Id } from "@/convex/_generated/dataModel";
+import { useHideTabBar } from "@/hooks/use-hide-tab-bar";
 import { capitalize } from "@/lib/utils";
 import { useMutation, useQuery } from "convex/react";
 import { Image } from "expo-image";
@@ -22,6 +23,8 @@ export const ErrorBoundary = ({ error, retry }: ErrorBoundaryProps) => (
 );
 
 const QuestDetail = () => {
+  useHideTabBar();
+
   const { id } = useLocalSearchParams<{ id: string }>();
   const quest = useQuery(api.quests.get, { questId: id as Id<"quests"> });
   const locations = useQuery(api.locations.listByQuest, {

@@ -7,6 +7,17 @@ const QuestsStack = () => {
         name="index"
         options={{ title: "Quests", headerLargeTitle: true }}
       />
+      <Stack.Screen
+        name="[id]/index"
+        options={{
+          headerLargeTitle: true,
+          headerBackButtonDisplayMode: "minimal",
+        }}
+      />
+      <Stack.Screen
+        name="[id]/location/[locationId]"
+        options={{ headerLargeTitle: true }}
+      />
     </Stack>
   );
 };

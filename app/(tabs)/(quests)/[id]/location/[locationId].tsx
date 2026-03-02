@@ -8,6 +8,7 @@ import { Screen } from "@/components/ui/screen";
 import { Text } from "@/components/ui/text";
 import { api } from "@/convex/_generated/api";
 import type { Id } from "@/convex/_generated/dataModel";
+import { useHideTabBar } from "@/hooks/use-hide-tab-bar";
 import { Ionicons } from "@expo/vector-icons";
 import { useQuery } from "convex/react";
 import {
@@ -23,6 +24,8 @@ export const ErrorBoundary = ({ error, retry }: ErrorBoundaryProps) => (
 );
 
 const LocationScreen = () => {
+  useHideTabBar();
+
   const { id: questId, locationId } = useLocalSearchParams<{
     id: string;
     locationId: string;
