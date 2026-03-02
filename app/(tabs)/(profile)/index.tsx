@@ -1,4 +1,4 @@
-import Screen from "@/components/ui/screen";
+import { Screen } from "@/components/ui/screen";
 import { Text } from "@/components/ui/text";
 import { useUser } from "@clerk/clerk-expo";
 import { Image } from "expo-image";

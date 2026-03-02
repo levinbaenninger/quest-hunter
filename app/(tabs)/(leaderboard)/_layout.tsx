@@ -5,7 +5,7 @@ const LeaderboardStack = () => {
     <Stack>
       <Stack.Screen
         name="index"
-        options={{ title: "Leaderboard", headerLargeTitleEnabled: true }}
+        options={{ title: "Leaderboard", headerLargeTitle: true }}
       />
     </Stack>
   );
