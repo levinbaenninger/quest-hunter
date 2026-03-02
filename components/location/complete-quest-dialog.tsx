@@ -30,6 +30,7 @@ export const CompleteQuestDialog = ({ open, onOpenChange, questId }: Props) => {
     setIsCompleting(true);
     try {
       await completeQuest({ questId: questId as Id<"quests"> });
+      onOpenChange(false);
       if (goToLeaderboard) {
         router.replace("/(tabs)/(leaderboard)");
       } else {
@@ -42,7 +43,6 @@ export const CompleteQuestDialog = ({ open, onOpenChange, questId }: Props) => {
       );
     } finally {
       setIsCompleting(false);
-      onOpenChange(false);
     }
   };
 
@@ -57,18 +57,18 @@ export const CompleteQuestDialog = ({ open, onOpenChange, questId }: Props) => {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel
-            onPress={() => handleComplete(false)}
-            disabled={isCompleting}
-          >
-            <Text>OK</Text>
-          </AlertDialogCancel>
-          <AlertDialogAction
             onPress={() => handleComplete(true)}
             disabled={isCompleting}
           >
             <Text>
               {isCompleting ? "Wird gespeichert…" : "Zum Leaderboard"}
             </Text>
+          </AlertDialogCancel>
+          <AlertDialogAction
+            onPress={() => handleComplete(false)}
+            disabled={isCompleting}
+          >
+            <Text>OK</Text>
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

@@ -9,6 +9,7 @@ import { Text } from "@/components/ui/text";
 import { api } from "@/convex/_generated/api";
 import type { Id } from "@/convex/_generated/dataModel";
 import { useHideTabBar } from "@/hooks/use-hide-tab-bar";
+import { THEME } from "@/lib/theme";
 import { Ionicons } from "@expo/vector-icons";
 import { useQuery } from "convex/react";
 import {
@@ -86,7 +87,7 @@ const LocationScreen = () => {
               onPress={() => setCancelDialogOpen(true)}
               className="pl-1.5"
             >
-              <Ionicons name="close" size={24} />
+              <Ionicons name="close" size={24} color={THEME.destructive} />
             </Pressable>
           ),
         }}
