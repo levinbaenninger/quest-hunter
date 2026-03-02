@@ -32,6 +32,7 @@ function Map({ coordinates }: { coordinates: Coordinates }) {
       <GoogleMaps.View
         style={styles.map}
         markers={[{ coordinates }]}
+        properties={{ isMyLocationEnabled: locationGranted }}
         cameraPosition={{ coordinates, zoom: 15 }}
       />
     );
