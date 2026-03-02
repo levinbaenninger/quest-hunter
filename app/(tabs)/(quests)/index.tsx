@@ -10,7 +10,7 @@ import { useHeaderHeight } from "@react-navigation/elements";
 import { useQuery } from "convex/react";
 import { ErrorBoundaryProps } from "expo-router";
 import { useState } from "react";
-import { FlatList, Platform, View } from "react-native";
+import { FlatList, View } from "react-native";
 
 export const ErrorBoundary = ({ error, retry }: ErrorBoundaryProps) => (
   <ErrorState description={error.message} onRetry={retry} />
@@ -40,21 +40,16 @@ const QuestsScreen = () => {
   const [tab, setTab] = useState<Tab>("recommended");
   const headerHeight = useHeaderHeight();
 
-  const recommendedQuests = useQuery(api.quests.listRecommended);
+  const recommended = useQuery(api.quests.listRecommended);
   const newQuests = useQuery(api.quests.listNew);
-  const finishedQuests = useQuery(api.quests.listFinished);
-  const inProgressIds = useQuery(api.quests.listInProgress);
+  const done = useQuery(api.quests.listFinished);
 
   const quests =
-    tab === "recommended"
-      ? recommendedQuests
-      : tab === "new"
-        ? newQuests
-        : finishedQuests;
+    tab === "recommended" ? recommended : tab === "new" ? newQuests : done;
 
   return (
     <>
-      <View style={{ paddingTop: Platform.OS === "ios" ? headerHeight : 16 }}>
+      <View style={{ paddingTop: headerHeight }}>
         <Tabs
           className="px-4"
           value={tab}
@@ -92,13 +87,7 @@ const QuestsScreen = () => {
           contentInsetAdjustmentBehavior="automatic"
           contentContainerClassName="p-4 gap-2"
           keyExtractor={(item) => item._id}
-          renderItem={({ item }) => (
-            <QuestItem
-              quest={item}
-              disabled={tab === "done"}
-              inProgress={inProgressIds?.includes(item._id) ?? false}
-            />
-          )}
+          renderItem={({ item }) => <QuestItem quest={item} />}
         />
       )}
     </>
