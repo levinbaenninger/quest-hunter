@@ -40,12 +40,16 @@ const QuestsScreen = () => {
   const [tab, setTab] = useState<Tab>("recommended");
   const headerHeight = useHeaderHeight();
 
-  const recommended = useQuery(api.quests.listRecommended);
+  const recommendedQuests = useQuery(api.quests.listRecommended);
   const newQuests = useQuery(api.quests.listNew);
-  const done = useQuery(api.quests.listFinished);
+  const finishedQuests = useQuery(api.quests.listFinished);
 
   const quests =
-    tab === "recommended" ? recommended : tab === "new" ? newQuests : done;
+    tab === "recommended"
+      ? recommendedQuests
+      : tab === "new"
+        ? newQuests
+        : finishedQuests;
 
   return (
     <>
@@ -87,7 +91,9 @@ const QuestsScreen = () => {
           contentInsetAdjustmentBehavior="automatic"
           contentContainerClassName="p-4 gap-2"
           keyExtractor={(item) => item._id}
-          renderItem={({ item }) => <QuestItem quest={item} />}
+          renderItem={({ item }) => (
+            <QuestItem quest={item} disabled={tab === "done"} />
+          )}
         />
       )}
     </>
