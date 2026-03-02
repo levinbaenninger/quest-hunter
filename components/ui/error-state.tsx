@@ -13,10 +13,7 @@ export const ErrorState = ({
   description,
   onRetry,
 }: ErrorStateProps) => (
-  <ScrollView
-    contentInsetAdjustmentBehavior="automatic"
-    contentContainerClassName="items-center gap-1 pt-8"
-  >
+  <ScrollView contentContainerClassName="grow items-center justify-center gap-1 pt-8">
     <View className="gap-0.5">
       <Text className="font-semibold">{title}</Text>
       {description && (

@@ -7,7 +7,7 @@ type EmptyStateProps = {
 };
 
 export const EmptyState = ({ title, description }: EmptyStateProps) => (
-  <View className="items-center gap-0.5 pt-8">
+  <View className="items-center gap-0.5">
     <Text className="text-lg font-semibold">{title}</Text>
     {description && (
       <Text className="text-muted-foreground text-center text-sm">
