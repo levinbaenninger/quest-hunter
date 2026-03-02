@@ -16,8 +16,8 @@ import {
   Stack,
   useLocalSearchParams,
 } from "expo-router";
-import { useState } from "react";
-import { Pressable, View } from "react-native";
+import { useEffect, useState } from "react";
+import { BackHandler, Pressable, View } from "react-native";
 
 export const ErrorBoundary = ({ error, retry }: ErrorBoundaryProps) => (
   <ErrorState description={error.message} onRetry={retry} />
@@ -43,6 +43,18 @@ const LocationScreen = () => {
 
   const [cancelDialogOpen, setCancelDialogOpen] = useState(false);
   const [completeDialogOpen, setCompleteDialogOpen] = useState(false);
+
+  useEffect(() => {
+    const subscription = BackHandler.addEventListener(
+      "hardwareBackPress",
+      () => {
+        setCancelDialogOpen(true);
+        return true;
+      },
+    );
+
+    return () => subscription.remove();
+  }, []);
 
   if (
     location === undefined ||
