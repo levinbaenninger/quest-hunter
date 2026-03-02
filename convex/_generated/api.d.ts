@@ -8,10 +8,11 @@
  * @module
  */
 
+import type * as _utils_auth from "../_utils/auth.js";
+import type * as _utils_user from "../_utils/user.js";
 import type * as http from "../http.js";
 import type * as locations from "../locations.js";
 import type * as quests from "../quests.js";
-import type * as userQuests from "../userQuests.js";
 import type * as users from "../users.js";
 
 import type {
@@ -21,10 +22,11 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
+  "_utils/auth": typeof _utils_auth;
+  "_utils/user": typeof _utils_user;
   http: typeof http;
   locations: typeof locations;
   quests: typeof quests;
-  userQuests: typeof userQuests;
   users: typeof users;
 }>;
 
