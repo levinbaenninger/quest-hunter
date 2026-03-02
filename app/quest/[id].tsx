@@ -26,8 +26,7 @@ const QuestDetail = () => {
   if (quest === undefined) {
     return (
       <>
-        <Stack.Screen options={{ title: "Quest" }} />
-
+        <Stack.Screen options={{ title: "" }} />
         <Screen centered>
           <LoadingState />
         </Screen>
