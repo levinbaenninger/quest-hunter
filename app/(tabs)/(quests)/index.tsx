@@ -2,10 +2,11 @@ import { QuestItem } from "@/components/quests/quest-item";
 import { EmptyState } from "@/components/ui/empty-state";
 import { ErrorState } from "@/components/ui/error-state";
 import { LoadingState } from "@/components/ui/loading-state";
+import { Screen } from "@/components/ui/screen";
 import { api } from "@/convex/_generated/api";
 import { useQuery } from "convex/react";
 import { ErrorBoundaryProps } from "expo-router";
-import { FlatList, View } from "react-native";
+import { FlatList } from "react-native";
 
 export const ErrorBoundary = ({ error, retry }: ErrorBoundaryProps) => (
   <ErrorState description={error.message} onRetry={retry} />
@@ -15,17 +16,21 @@ const QuestsScreen = () => {
   const quests = useQuery(api.quests.listRecommended);
 
   if (quests === undefined) {
-    return <LoadingState />;
+    return (
+      <Screen centered>
+        <LoadingState />
+      </Screen>
+    );
   }
 
   if (quests.length === 0) {
     return (
-      <View className="flex-1 justify-center items-center p-4">
+      <Screen centered>
         <EmptyState
           title="All quests completed"
           description="You've finished everything. Check back soon!"
         />
-      </View>
+      </Screen>
     );
   }
 
