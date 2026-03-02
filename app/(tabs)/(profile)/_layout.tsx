@@ -1,7 +1,9 @@
+import { THEME } from "@/lib/theme";
 import { useAuth } from "@clerk/clerk-expo";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import Stack from "expo-router/stack";
 import { useState } from "react";
-import { Alert, Pressable, Text } from "react-native";
+import { Alert, Pressable } from "react-native";
 
 const SignOutButton = () => {
   const { signOut } = useAuth();
@@ -20,8 +22,13 @@ const SignOutButton = () => {
   };
 
   return (
-    <Pressable onPress={handleSignOut} disabled={isSigningOut} className="p-2">
-      <Text className="text-destructive">Sign Out</Text>
+    <Pressable
+      onPress={handleSignOut}
+      disabled={isSigningOut}
+      className="p-2"
+      accessibilityLabel="Sign out"
+    >
+      <Ionicons name="log-out-outline" size={20} color={THEME.destructive} />
     </Pressable>
   );
 };

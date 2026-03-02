@@ -1,21 +1,52 @@
-import { Icon, Label, NativeTabs } from "expo-router/unstable-native-tabs";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { Tabs } from "expo-router";
 
 const TabLayout = () => {
   return (
-    <NativeTabs minimizeBehavior="onScrollDown">
-      <NativeTabs.Trigger name="(quests)">
-        <Icon sf="scroll.fill" />
-        <Label>Quests</Label>
-      </NativeTabs.Trigger>
-      <NativeTabs.Trigger name="(leaderboard)">
-        <Icon sf="trophy.fill" />
-        <Label>Leaderboard</Label>
-      </NativeTabs.Trigger>
-      <NativeTabs.Trigger name="(profile)">
-        <Icon sf="person.fill" />
-        <Label>Profile</Label>
-      </NativeTabs.Trigger>
-    </NativeTabs>
+    <Tabs>
+      <Tabs.Screen
+        name="(quests)"
+        options={{
+          title: "Quests",
+          headerShown: false,
+          tabBarIcon: ({ color, size, focused }) => (
+            <Ionicons
+              name={focused ? "compass" : "compass-outline"}
+              color={color}
+              size={size}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="(leaderboard)"
+        options={{
+          title: "Leaderboard",
+          headerShown: false,
+          tabBarIcon: ({ color, size, focused }) => (
+            <Ionicons
+              name={focused ? "trophy" : "trophy-outline"}
+              color={color}
+              size={size}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="(profile)"
+        options={{
+          title: "Profil",
+          headerShown: false,
+          tabBarIcon: ({ color, size, focused }) => (
+            <Ionicons
+              name={focused ? "person" : "person-outline"}
+              color={color}
+              size={size}
+            />
+          ),
+        }}
+      />
+    </Tabs>
   );
 };
 

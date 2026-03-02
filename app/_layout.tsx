@@ -1,29 +1,30 @@
 import { convex } from "@/lib/convex-client";
 import { ClerkProvider, useAuth } from "@clerk/clerk-expo";
 import { tokenCache } from "@clerk/clerk-expo/token-cache";
+import { DefaultTheme, ThemeProvider } from "@react-navigation/native";
 import { PortalHost } from "@rn-primitives/portal";
-import {
-  DarkTheme,
-  DefaultTheme,
-  ThemeProvider,
-} from "@react-navigation/native";
 import { ConvexProviderWithClerk } from "convex/react-clerk";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import { useColorScheme } from "react-native";
 import "../global.css";
 
 const RootLayoutNav = () => {
   const { isSignedIn, isLoaded } = useAuth();
-  const colorScheme = useColorScheme();
 
   if (!isLoaded) return null;
 
   return (
-    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+    <ThemeProvider value={DefaultTheme}>
       <Stack>
         <Stack.Protected guard={isSignedIn ?? false}>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen
+            name="quest/[id]"
+            options={{
+              headerLargeTitle: true,
+              headerBackButtonDisplayMode: "minimal",
+            }}
+          />
         </Stack.Protected>
         <Stack.Screen name="(auth)" options={{ headerShown: false }} />
       </Stack>
@@ -38,7 +39,7 @@ const RootLayout = () => {
       tokenCache={tokenCache}
     >
       <ConvexProviderWithClerk client={convex} useAuth={useAuth}>
-        <StatusBar style="auto" />
+        <StatusBar style="dark" />
         <RootLayoutNav />
         <PortalHost />
       </ConvexProviderWithClerk>

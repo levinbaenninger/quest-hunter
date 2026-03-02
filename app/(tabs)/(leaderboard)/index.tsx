@@ -1,4 +1,4 @@
-import Screen from "@/components/ui/screen";
+import { Screen } from "@/components/ui/screen";
 
 const LeaderboardScreen = () => {
   return <Screen />;

@@ -5,11 +5,7 @@ const QuestsStack = () => {
     <Stack>
       <Stack.Screen
         name="index"
-        options={{ title: "Quests", headerLargeTitleEnabled: true }}
-      />
-      <Stack.Screen
-        name="[id]"
-        options={{ title: "Quest", headerLargeTitleEnabled: false }}
+        options={{ title: "Quests", headerLargeTitle: true }}
       />
       <Stack.Screen
         name="[id]/location"
