@@ -43,6 +43,7 @@ const QuestsScreen = () => {
   const recommendedQuests = useQuery(api.quests.listRecommended);
   const newQuests = useQuery(api.quests.listNew);
   const finishedQuests = useQuery(api.quests.listFinished);
+  const inProgressIds = useQuery(api.quests.listInProgress);
 
   const quests =
     tab === "recommended"
@@ -92,7 +93,11 @@ const QuestsScreen = () => {
           contentContainerClassName="p-4 gap-2"
           keyExtractor={(item) => item._id}
           renderItem={({ item }) => (
-            <QuestItem quest={item} disabled={tab === "done"} />
+            <QuestItem
+              quest={item}
+              disabled={tab === "done"}
+              inProgress={inProgressIds?.includes(item._id) ?? false}
+            />
           )}
         />
       )}

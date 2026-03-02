@@ -104,7 +104,6 @@ const LocationScreen = () => {
       <CancelQuestDialog
         open={cancelDialogOpen}
         onOpenChange={setCancelDialogOpen}
-        questId={questId}
       />
     </>
   );

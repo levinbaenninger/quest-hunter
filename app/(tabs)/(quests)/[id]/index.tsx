@@ -30,11 +30,22 @@ const QuestDetail = () => {
   const locations = useQuery(api.locations.listByQuest, {
     questId: id as Id<"quests">,
   });
+  const status = useQuery(api.quests.getStatus, {
+    questId: id as Id<"quests">,
+  });
+  const completedLocations = useQuery(api.locations.listCompleted, {
+    questId: id as Id<"quests">,
+  });
 
   const startQuest = useMutation(api.quests.start);
   const [isStarting, setIsStarting] = useState(false);
 
-  if (quest === undefined || locations === undefined) {
+  if (
+    quest === undefined ||
+    locations === undefined ||
+    status === undefined ||
+    completedLocations === undefined
+  ) {
     return (
       <>
         <Stack.Screen options={{ title: "" }} />
@@ -58,6 +69,15 @@ const QuestDetail = () => {
   }
 
   const firstLocationId = locations[0]._id;
+  const isInProgress =
+    !!status?.startedAt && !status?.cancelledAt && !status?.completedAt;
+
+  const resumeLocationId = (() => {
+    if (!isInProgress) return firstLocationId;
+    const completedIds = new Set(completedLocations.map((cl) => cl.locationId));
+    return (locations.find((l) => !completedIds.has(l._id)) ?? locations[0])
+      ._id;
+  })();
 
   const handleStartQuest = async () => {
     setIsStarting(true);
@@ -72,6 +92,10 @@ const QuestDetail = () => {
     } finally {
       setIsStarting(false);
     }
+  };
+
+  const handleContinueQuest = () => {
+    router.navigate(`/${id}/location/${resumeLocationId}`);
   };
 
   return (
@@ -99,14 +123,20 @@ const QuestDetail = () => {
       </Screen>
 
       <View className="border-border bg-background border-t p-4 pb-8">
-        <Button
-          size="lg"
-          className="w-full"
-          onPress={handleStartQuest}
-          disabled={isStarting}
-        >
-          <Text>{isStarting ? "Wird gestartet…" : "Quest starten"}</Text>
-        </Button>
+        {isInProgress ? (
+          <Button size="lg" className="w-full" onPress={handleContinueQuest}>
+            <Text>Quest fortsetzen</Text>
+          </Button>
+        ) : (
+          <Button
+            size="lg"
+            className="w-full"
+            onPress={handleStartQuest}
+            disabled={isStarting}
+          >
+            <Text>{isStarting ? "Wird gestartet…" : "Quest starten"}</Text>
+          </Button>
+        )}
       </View>
     </>
   );

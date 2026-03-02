@@ -90,6 +90,26 @@ export const listFinished = query({
   },
 });
 
+export const listInProgress = query({
+  args: {},
+  handler: async (ctx) => {
+    const user = await requireUser(ctx);
+
+    const userQuests = await ctx.db
+      .query("userQuests")
+      .withIndex("by_user", (q) => q.eq("userId", user._id))
+      .filter((q) =>
+        q.and(
+          q.eq(q.field("cancelledAt"), undefined),
+          q.eq(q.field("completedAt"), undefined),
+        ),
+      )
+      .collect();
+
+    return userQuests.map((uq) => uq.questId);
+  },
+});
+
 export const getStatus = query({
   args: {
     questId: v.id("quests"),

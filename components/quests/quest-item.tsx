@@ -9,9 +9,22 @@ import { Pressable, View } from "react-native";
 type QuestItemProps = {
   quest: Doc<"quests">;
   disabled?: boolean;
+  inProgress?: boolean;
 };
 
-export const QuestItem = ({ quest, disabled = false }: QuestItemProps) => {
+export const QuestItem = ({
+  quest,
+  disabled = false,
+  inProgress = false,
+}: QuestItemProps) => {
+  const icon = disabled
+    ? "checkmark-circle"
+    : inProgress
+      ? "play-circle"
+      : "chevron-forward";
+  const iconColor =
+    inProgress && !disabled ? THEME.primary : THEME.mutedForeground;
+
   const content = (
     <View
       className="bg-white flex-row items-center gap-3 rounded-xl p-4 shadow-sm shadow-black/5"
@@ -27,11 +40,7 @@ export const QuestItem = ({ quest, disabled = false }: QuestItemProps) => {
           ].join(" · ")}
         </Text>
       </View>
-      <Ionicons
-        name={disabled ? "checkmark-circle" : "chevron-forward"}
-        size={24}
-        color={THEME.mutedForeground}
-      />
+      <Ionicons name={icon} size={24} color={iconColor} />
     </View>
   );
 
