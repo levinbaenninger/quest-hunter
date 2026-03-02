@@ -7,8 +7,5 @@
     "source.sortMembers": "explicit"
   },
   "snyk.advanced.organization": "1fa44131-04e6-4685-8bd6-91d2205e9f45",
-  "snyk.advanced.autoSelectOrganization": true,
-  "[typescriptreact]": {
-    "editor.defaultFormatter": "vscode.typescript-language-features"
-  }
+  "snyk.advanced.autoSelectOrganization": true
 }

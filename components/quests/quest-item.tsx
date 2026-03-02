@@ -12,7 +12,7 @@ type QuestItemProps = {
 
 export const QuestItem = ({ quest }: QuestItemProps) => {
   return (
-    <Link href={`/quest/${quest._id}`} asChild>
+    <Link href={`/${quest._id}`} asChild>
       <Pressable>
         <View
           className="bg-white flex-row items-center gap-3 rounded-xl p-4 shadow-sm shadow-black/5"

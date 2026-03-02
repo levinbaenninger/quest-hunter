@@ -14,7 +14,8 @@ import {
   Stack,
   useLocalSearchParams,
 } from "expo-router";
-import { View } from "react-native";
+import { useState } from "react";
+import { Alert, View } from "react-native";
 
 export const ErrorBoundary = ({ error, retry }: ErrorBoundaryProps) => (
   <ErrorState description={error.message} onRetry={retry} />
@@ -28,6 +29,7 @@ const QuestDetail = () => {
   });
 
   const startQuest = useMutation(api.quests.start);
+  const [isStarting, setIsStarting] = useState(false);
 
   if (quest === undefined || locations === undefined) {
     return (
@@ -40,11 +42,33 @@ const QuestDetail = () => {
     );
   }
 
+  if (locations.length === 0) {
+    return (
+      <>
+        <Stack.Screen options={{ title: quest.name }} />
+        <ErrorState
+          title="Keine Stationen"
+          description="Diese Quest hat keine Stationen."
+        />
+      </>
+    );
+  }
+
   const firstLocationId = locations[0]._id;
 
   const handleStartQuest = async () => {
-    await startQuest({ questId: id as Id<"quests"> });
-    router.navigate(`/quest/${id}/location/${firstLocationId}`);
+    setIsStarting(true);
+    try {
+      await startQuest({ questId: id as Id<"quests"> });
+      router.navigate(`/${id}/location/${firstLocationId}`);
+    } catch {
+      Alert.alert(
+        "Fehler",
+        "Quest konnte nicht gestartet werden. Bitte versuche es erneut.",
+      );
+    } finally {
+      setIsStarting(false);
+    }
   };
 
   return (
@@ -52,17 +76,13 @@ const QuestDetail = () => {
       <Stack.Screen options={{ title: quest.name }} />
       <Screen>
         <View className="gap-3">
-          {quest.imageUrl && (
+          {quest.imageUrl ? (
             <Image
               source={quest.imageUrl}
-              style={{
-                width: "100%",
-                aspectRatio: 16 / 9,
-                borderRadius: 16,
-              }}
+              style={{ width: "100%", aspectRatio: 16 / 9, borderRadius: 16 }}
               contentFit="cover"
             />
-          )}
+          ) : null}
           <Text className="text-muted-foreground text-sm">
             {[
               `${quest.estimatedTime} min`,
@@ -71,14 +91,18 @@ const QuestDetail = () => {
               `${quest.xp} XP`,
             ].join(" · ")}
           </Text>
-
           <Text>{quest.description}</Text>
         </View>
       </Screen>
 
       <View className="border-border bg-background border-t p-4 pb-8">
-        <Button size="lg" className="w-full" onPress={handleStartQuest}>
-          <Text>Quest starten</Text>
+        <Button
+          size="lg"
+          className="w-full"
+          onPress={handleStartQuest}
+          disabled={isStarting}
+        >
+          <Text>{isStarting ? "Wird gestartet…" : "Quest starten"}</Text>
         </Button>
       </View>
     </>

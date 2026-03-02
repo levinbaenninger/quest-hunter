@@ -18,13 +18,7 @@ const RootLayoutNav = () => {
       <Stack>
         <Stack.Protected guard={isSignedIn ?? false}>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen
-            name="quest/[id]/index"
-            options={{
-              headerLargeTitle: true,
-              headerBackButtonDisplayMode: "minimal",
-            }}
-          />
+          <Stack.Screen name="(fullscreen)" options={{ headerShown: false }} />
         </Stack.Protected>
         <Stack.Screen name="(auth)" options={{ headerShown: false }} />
       </Stack>
