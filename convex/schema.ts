@@ -3,17 +3,38 @@ import { v } from "convex/values";
 
 const schema = defineSchema({
   quests: defineTable({
-    title: v.string(),
+    name: v.string(),
     description: v.string(),
+    estimatedTime: v.number(),
+    difficulty: v.union(
+      v.literal("easy"),
+      v.literal("medium"),
+      v.literal("hard"),
+    ),
+    xp: v.number(),
+    imageUrl: v.optional(v.string()),
   }),
   locations: defineTable({
+    questId: v.id("quests"),
     name: v.string(),
     description: v.string(),
     coordinates: v.object({
       latitude: v.number(),
       longitude: v.number(),
     }),
-  }),
+    order: v.number(),
+  })
+    .index("by_quest", ["questId"])
+    .index("by_quest_order", ["questId", "order"]),
+  userLocations: defineTable({
+    userId: v.id("users"),
+    questId: v.id("quests"),
+    locationId: v.id("locations"),
+    photoStorageId: v.id("_storage"),
+    completedAt: v.number(),
+  })
+    .index("by_user_and_quest", ["userId", "questId"])
+    .index("by_user_and_location", ["userId", "locationId"]),
   users: defineTable({
     clerkId: v.string(),
     email: v.string(),
@@ -21,6 +42,16 @@ const schema = defineSchema({
     lastName: v.optional(v.string()),
     imageUrl: v.optional(v.string()),
   }).index("by_clerk_id", ["clerkId"]),
+  userQuests: defineTable({
+    userId: v.id("users"),
+    questId: v.id("quests"),
+    startedAt: v.number(),
+    completedAt: v.optional(v.number()),
+    cancelledAt: v.optional(v.number()),
+  })
+    .index("by_user", ["userId"])
+    .index("by_quest", ["questId"])
+    .index("by_user_and_quest", ["userId", "questId"]),
 });
 
 export default schema;
