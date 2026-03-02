@@ -74,8 +74,6 @@ export const complete = mutation({
       )
       .unique();
     if (!userQuest) throw new ConvexError("Quest not started");
-    if (userQuest.cancelledAt)
-      throw new ConvexError("Quest has been cancelled");
     if (userQuest.completedAt) throw new ConvexError("Quest already completed");
 
     const location = await ctx.db.get(locationId);

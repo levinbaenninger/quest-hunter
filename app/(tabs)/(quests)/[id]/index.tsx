@@ -69,8 +69,7 @@ const QuestDetail = () => {
   }
 
   const firstLocationId = locations[0]._id;
-  const isInProgress =
-    !!status?.startedAt && !status?.cancelledAt && !status?.completedAt;
+  const isInProgress = !!status?.startedAt && !status.completedAt;
 
   const resumeLocationId = (() => {
     if (!isInProgress) return firstLocationId;
