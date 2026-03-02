@@ -27,8 +27,8 @@ const QuestsScreen = () => {
     return (
       <Screen centered>
         <EmptyState
-          title="All quests completed"
-          description="You've finished everything. Check back soon!"
+          title="Alle Quests abgeschlossen"
+          description="Du hast alles abgeschlossen. Schau später noch einmal vorbei!"
         />
       </Screen>
     );
