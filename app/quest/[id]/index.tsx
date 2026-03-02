@@ -6,10 +6,11 @@ import { Text } from "@/components/ui/text";
 import { api } from "@/convex/_generated/api";
 import type { Id } from "@/convex/_generated/dataModel";
 import { capitalize } from "@/lib/utils";
-import { useQuery } from "convex/react";
+import { useMutation, useQuery } from "convex/react";
 import { Image } from "expo-image";
 import {
   type ErrorBoundaryProps,
+  router,
   Stack,
   useLocalSearchParams,
 } from "expo-router";
@@ -22,8 +23,19 @@ export const ErrorBoundary = ({ error, retry }: ErrorBoundaryProps) => (
 const QuestDetail = () => {
   const { id } = useLocalSearchParams<{ id: string }>();
   const quest = useQuery(api.quests.get, { questId: id as Id<"quests"> });
+  const locations = useQuery(api.locations.listByQuest, {
+    questId: id as Id<"quests">,
+  });
 
-  if (quest === undefined) {
+  const firstLocationId = locations?.find((loc) => loc.order === 0)?._id;
+  const startQuest = useMutation(api.quests.start);
+
+  const handleStartQuest = async () => {
+    await startQuest({ questId: id as Id<"quests"> });
+    router.navigate(`/quest/${id}/location/${firstLocationId}`);
+  };
+
+  if (quest === undefined || locations === undefined) {
     return (
       <>
         <Stack.Screen options={{ title: "" }} />
@@ -64,7 +76,7 @@ const QuestDetail = () => {
       </Screen>
 
       <View className="border-border bg-background border-t p-4 pb-8">
-        <Button size="lg" className="w-full" onPress={() => {}}>
+        <Button size="lg" className="w-full" onPress={handleStartQuest}>
           <Text>Quest starten</Text>
         </Button>
       </View>

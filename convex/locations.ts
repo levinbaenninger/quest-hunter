@@ -19,6 +19,20 @@ export const listByQuest = query({
   },
 });
 
+export const get = query({
+  args: {
+    locationId: v.id("locations"),
+  },
+  handler: async (ctx, { locationId }) => {
+    await requireUser(ctx);
+
+    const location = await ctx.db.get(locationId);
+    if (!location) throw new ConvexError("Location not found");
+
+    return location;
+  },
+});
+
 export const listCompleted = query({
   args: {
     questId: v.id("quests"),

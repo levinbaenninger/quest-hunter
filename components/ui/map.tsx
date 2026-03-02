@@ -1,5 +1,5 @@
-import { AppleMaps, Coordinates } from "expo-maps";
-import { Platform, Text } from "react-native";
+import { AppleMaps, Coordinates, GoogleMaps } from "expo-maps";
+import { Platform } from "react-native";
 
 function Map({ coordinates }: { coordinates: Coordinates }) {
   if (Platform.OS === "ios") {
@@ -10,10 +10,16 @@ function Map({ coordinates }: { coordinates: Coordinates }) {
         properties={{ isMyLocationEnabled: true }}
       />
     );
-  } /*else if (Platform.OS === 'android') {
-        return <GoogleMaps.View style={{ flex: 1 }} />;
-    }*/ else {
-    return <Text>Map is not supported on this platform.</Text>;
+  }
+  if (Platform.OS === "android") {
+    return (
+      <GoogleMaps.View
+        style={{ flex: 1 }}
+        markers={[{ coordinates: coordinates }]}
+        properties={{ isMyLocationEnabled: true }}
+        cameraPosition={{ coordinates: coordinates }}
+      />
+    );
   }
 }
 

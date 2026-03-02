@@ -53,7 +53,7 @@ const schema = defineSchema({
   userQuests: defineTable({
     userId: v.id("users"),
     questId: v.id("quests"),
-    startedAt: v.number(),
+    startedAt: v.optional(v.number()),
     completedAt: v.optional(v.number()),
     cancelledAt: v.optional(v.number()),
   })
