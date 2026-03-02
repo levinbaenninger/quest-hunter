@@ -22,7 +22,12 @@ const SignOutButton = () => {
   };
 
   return (
-    <Pressable onPress={handleSignOut} disabled={isSigningOut} className="p-2">
+    <Pressable
+      onPress={handleSignOut}
+      disabled={isSigningOut}
+      className="p-2"
+      accessibilityLabel="Sign out"
+    >
       <Ionicons name="log-out-outline" size={20} color={THEME.destructive} />
     </Pressable>
   );

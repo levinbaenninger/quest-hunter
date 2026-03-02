@@ -21,7 +21,7 @@ const RootLayoutNav = () => {
           <Stack.Screen
             name="quest/[id]"
             options={{
-              headerLargeTitleEnabled: true,
+              headerLargeTitle: true,
               headerBackButtonDisplayMode: "minimal",
             }}
           />

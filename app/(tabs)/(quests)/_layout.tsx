@@ -5,7 +5,7 @@ const QuestsStack = () => {
     <Stack>
       <Stack.Screen
         name="index"
-        options={{ title: "Quests", headerLargeTitleEnabled: true }}
+        options={{ title: "Quests", headerLargeTitle: true }}
       />
     </Stack>
   );
