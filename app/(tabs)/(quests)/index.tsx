@@ -10,7 +10,7 @@ import { useHeaderHeight } from "@react-navigation/elements";
 import { useQuery } from "convex/react";
 import { ErrorBoundaryProps } from "expo-router";
 import { useState } from "react";
-import { FlatList, View } from "react-native";
+import { FlatList, Platform, View } from "react-native";
 
 export const ErrorBoundary = ({ error, retry }: ErrorBoundaryProps) => (
   <ErrorState description={error.message} onRetry={retry} />
@@ -49,7 +49,7 @@ const QuestsScreen = () => {
 
   return (
     <>
-      <View style={{ paddingTop: headerHeight }}>
+      <View style={{ paddingTop: Platform.OS === "ios" ? headerHeight : 16 }}>
         <Tabs
           className="px-4"
           value={tab}
