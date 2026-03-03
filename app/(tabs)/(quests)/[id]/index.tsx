@@ -62,7 +62,7 @@ const QuestDetail = () => {
         <Stack.Screen options={{ title: quest.name }} />
         <ErrorState
           title="Keine Stationen"
-          description="Diese Quest hat keine Stationen."
+          description="Diese Quest hat keine Stationen. Bitte warte bis der Admin die Stationen hinzufügt."
         />
       </>
     );
