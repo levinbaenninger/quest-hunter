@@ -11,6 +11,7 @@ type ProximityResult = {
   isNearby: boolean;
   isLoading: boolean;
   permissionDenied: boolean;
+  locationGranted: boolean;
 };
 
 function haversineDistance(a: Coordinates, b: Coordinates): number {
@@ -33,6 +34,7 @@ export function useProximity(
   const [isNearby, setIsNearby] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [permissionDenied, setPermissionDenied] = useState(false);
+  const [locationGranted, setLocationGranted] = useState(false);
   const subscriptionRef = useRef<Location.LocationSubscription | null>(null);
   const wasNearbyRef = useRef(false);
 
@@ -48,6 +50,8 @@ export function useProximity(
         setIsLoading(false);
         return;
       }
+
+      setLocationGranted(true);
 
       subscriptionRef.current = await Location.watchPositionAsync(
         {
@@ -88,5 +92,5 @@ export function useProximity(
     };
   }, [target.latitude, target.longitude, radiusMeters]);
 
-  return { isNearby, isLoading, permissionDenied };
+  return { isNearby, isLoading, permissionDenied, locationGranted };
 }

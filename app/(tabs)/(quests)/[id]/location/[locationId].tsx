@@ -48,7 +48,7 @@ const LocationContent = ({
   const [cancelDialogOpen, setCancelDialogOpen] = useState(false);
   const [completeDialogOpen, setCompleteDialogOpen] = useState(false);
 
-  const { isNearby } = useProximity(location.coordinates);
+  const { isNearby, locationGranted } = useProximity(location.coordinates);
 
   useEffect(() => {
     const subscription = BackHandler.addEventListener(
@@ -85,7 +85,10 @@ const LocationContent = ({
 
       <View className="flex-1">
         <Screen className="gap-2">
-          <Map coordinates={location.coordinates} />
+          <Map
+            coordinates={location.coordinates}
+            locationGranted={locationGranted}
+          />
           <Text>{location.description}</Text>
         </Screen>
 
