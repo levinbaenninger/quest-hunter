@@ -12,6 +12,7 @@ type Props = {
   questId: string;
   locationId: string;
   isCompleted: boolean;
+  isNearby: boolean;
   nextLocationId: string | undefined;
   onCompleteRequest: () => void;
 };
@@ -20,6 +21,7 @@ export const LocationActionBar = ({
   questId,
   locationId,
   isCompleted,
+  isNearby,
   nextLocationId,
   onCompleteRequest,
 }: Props) => {
@@ -95,7 +97,7 @@ export const LocationActionBar = ({
           size="lg"
           className="w-full"
           onPress={handleOpenCamera}
-          disabled={isCapturing}
+          disabled={isCapturing || !isNearby}
         >
           <Text>{isCapturing ? "Wird hochgeladen…" : "Foto aufnehmen"}</Text>
         </Button>

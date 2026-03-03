@@ -9,6 +9,7 @@ import { Text } from "@/components/ui/text";
 import { api } from "@/convex/_generated/api";
 import type { Id } from "@/convex/_generated/dataModel";
 import { useHideTabBar } from "@/hooks/use-hide-tab-bar";
+import { useProximity } from "@/hooks/use-proximity";
 import { THEME } from "@/lib/theme";
 import { Ionicons } from "@expo/vector-icons";
 import { useQuery } from "convex/react";
@@ -24,26 +25,30 @@ export const ErrorBoundary = ({ error, retry }: ErrorBoundaryProps) => (
   <ErrorState description={error.message} onRetry={retry} />
 );
 
-const LocationScreen = () => {
-  useHideTabBar();
+type LocationContentProps = {
+  questId: string;
+  locationId: string;
+  location: {
+    name: string;
+    description: string;
+    coordinates: { latitude: number; longitude: number };
+    order: number;
+  };
+  allLocations: { _id: Id<"locations">; order: number }[];
+  completedLocations: { locationId: string }[];
+};
 
-  const { id: questId, locationId } = useLocalSearchParams<{
-    id: string;
-    locationId: string;
-  }>();
-
-  const location = useQuery(api.locations.get, {
-    locationId: locationId as Id<"locations">,
-  });
-  const allLocations = useQuery(api.locations.listByQuest, {
-    questId: questId as Id<"quests">,
-  });
-  const completedLocations = useQuery(api.locations.listCompleted, {
-    questId: questId as Id<"quests">,
-  });
-
+const LocationContent = ({
+  questId,
+  locationId,
+  location,
+  allLocations,
+  completedLocations,
+}: LocationContentProps) => {
   const [cancelDialogOpen, setCancelDialogOpen] = useState(false);
   const [completeDialogOpen, setCompleteDialogOpen] = useState(false);
+
+  const { isNearby } = useProximity(location.coordinates);
 
   useEffect(() => {
     const subscription = BackHandler.addEventListener(
@@ -56,21 +61,6 @@ const LocationScreen = () => {
 
     return () => subscription.remove();
   }, []);
-
-  if (
-    location === undefined ||
-    allLocations === undefined ||
-    completedLocations === undefined
-  ) {
-    return (
-      <>
-        <Stack.Screen options={{ title: "" }} />
-        <Screen centered>
-          <LoadingState />
-        </Screen>
-      </>
-    );
-  }
 
   const isCompleted = completedLocations.some(
     (cl) => cl.locationId === locationId,
@@ -103,6 +93,7 @@ const LocationScreen = () => {
           questId={questId}
           locationId={locationId}
           isCompleted={isCompleted}
+          isNearby={isNearby}
           nextLocationId={nextLocation?._id}
           onCompleteRequest={() => setCompleteDialogOpen(true)}
         />
@@ -119,6 +110,50 @@ const LocationScreen = () => {
         onOpenChange={setCancelDialogOpen}
       />
     </>
+  );
+};
+
+const LocationScreen = () => {
+  useHideTabBar();
+
+  const { id: questId, locationId } = useLocalSearchParams<{
+    id: string;
+    locationId: string;
+  }>();
+
+  const location = useQuery(api.locations.get, {
+    locationId: locationId as Id<"locations">,
+  });
+  const allLocations = useQuery(api.locations.listByQuest, {
+    questId: questId as Id<"quests">,
+  });
+  const completedLocations = useQuery(api.locations.listCompleted, {
+    questId: questId as Id<"quests">,
+  });
+
+  if (
+    location === undefined ||
+    allLocations === undefined ||
+    completedLocations === undefined
+  ) {
+    return (
+      <>
+        <Stack.Screen options={{ title: "" }} />
+        <Screen centered>
+          <LoadingState />
+        </Screen>
+      </>
+    );
+  }
+
+  return (
+    <LocationContent
+      questId={questId}
+      locationId={locationId}
+      location={location}
+      allLocations={allLocations}
+      completedLocations={completedLocations}
+    />
   );
 };
 
