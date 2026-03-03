@@ -25,7 +25,7 @@ const SignOutButton = () => {
     <Pressable
       onPress={handleSignOut}
       disabled={isSigningOut}
-      className="p-2"
+      className="pl-2.5"
       accessibilityLabel="Sign out"
     >
       <Ionicons name="log-out-outline" size={20} color={THEME.destructive} />

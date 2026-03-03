@@ -1,4 +1,4 @@
-import Stack from "expo-router/stack";
+import { Stack } from "expo-router";
 
 const QuestsStack = () => {
   return (
@@ -6,6 +6,17 @@ const QuestsStack = () => {
       <Stack.Screen
         name="index"
         options={{ title: "Quests", headerLargeTitle: true }}
+      />
+      <Stack.Screen
+        name="[id]/index"
+        options={{
+          headerLargeTitle: true,
+          headerBackButtonDisplayMode: "minimal",
+        }}
+      />
+      <Stack.Screen
+        name="[id]/location/[locationId]"
+        options={{ headerLargeTitle: true, headerBackVisible: false }}
       />
     </Stack>
   );
