@@ -4,7 +4,7 @@ import { requireUser } from "./_utils/user";
 export const list = query({
   args: {},
   handler: async (ctx) => {
-    await requireUser(ctx);
+    const currentUser = await requireUser(ctx);
 
     const [users, allUserQuests, allQuests] = await Promise.all([
       ctx.db.query("users").collect(),
@@ -30,6 +30,7 @@ export const list = query({
         firstName: user.firstName,
         lastName: user.lastName,
         xp: xpByUser.get(user._id) ?? 0,
+        isCurrentUser: user._id === currentUser._id,
       }))
       .sort((a, b) => b.xp - a.xp);
   },
