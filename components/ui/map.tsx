@@ -1,21 +1,14 @@
 import { Text } from "@/components/ui/text";
 import { AppleMaps, Coordinates, GoogleMaps } from "expo-maps";
-import { useEffect, useState } from "react";
-import { PermissionsAndroid, Platform, StyleSheet } from "react-native";
+import { Platform, StyleSheet } from "react-native";
 
-function Map({ coordinates }: { coordinates: Coordinates }) {
-  const [locationGranted, setLocationGranted] = useState(false);
-
-  useEffect(() => {
-    if (Platform.OS !== "android") return;
-
-    PermissionsAndroid.request(
-      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-    ).then((result) =>
-      setLocationGranted(result === PermissionsAndroid.RESULTS.GRANTED),
-    );
-  }, []);
-
+function Map({
+  coordinates,
+  locationGranted = false,
+}: {
+  coordinates: Coordinates;
+  locationGranted?: boolean;
+}) {
   if (Platform.OS === "ios") {
     return (
       <AppleMaps.View
@@ -30,6 +23,7 @@ function Map({ coordinates }: { coordinates: Coordinates }) {
   if (Platform.OS === "android") {
     return (
       <GoogleMaps.View
+        key={locationGranted ? "granted" : "pending"}
         style={styles.map}
         markers={[{ coordinates }]}
         properties={{ isMyLocationEnabled: locationGranted }}

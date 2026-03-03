@@ -1,3 +1,4 @@
+import { SocialConnections } from "@/components/auth/social-connections";
 import {
   Card,
   CardContent,
@@ -7,7 +8,6 @@ import {
 } from "@/components/ui/card";
 import * as React from "react";
 import { View } from "react-native";
-import { SocialConnections } from "./social-connections";
 
 export function SignInForm() {
   return (
@@ -15,10 +15,10 @@ export function SignInForm() {
       <Card className="border-border/0 sm:border-border shadow-none sm:shadow-sm sm:shadow-black/5">
         <CardHeader>
           <CardTitle className="text-center text-xl sm:text-left">
-            Sign in to Quest Hunter
+            Bei Quest Hunter anmelden
           </CardTitle>
           <CardDescription className="text-center sm:text-left">
-            Welcome! Please sign in to continue.
+            Willkommen! Bitte melde dich an, um fortzufahren.
           </CardDescription>
         </CardHeader>
         <CardContent>
