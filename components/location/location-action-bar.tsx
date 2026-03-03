@@ -12,7 +12,9 @@ type Props = {
   questId: string;
   locationId: string;
   isCompleted: boolean;
-  isNearby: boolean;
+  isNearby: boolean | null;
+  isProximityLoading: boolean;
+  permissionDenied: boolean;
   nextLocationId: string | undefined;
   onCompleteRequest: () => void;
 };
@@ -22,6 +24,8 @@ export const LocationActionBar = ({
   locationId,
   isCompleted,
   isNearby,
+  isProximityLoading,
+  permissionDenied,
   nextLocationId,
   onCompleteRequest,
 }: Props) => {
@@ -93,14 +97,31 @@ export const LocationActionBar = ({
           <Text>{nextLocationId ? "Weiter" : "Quest abschliessen"}</Text>
         </Button>
       ) : (
-        <Button
-          size="lg"
-          className="w-full"
-          onPress={handleOpenCamera}
-          disabled={isCapturing || !isNearby}
-        >
-          <Text>{isCapturing ? "Wird hochgeladen…" : "Foto aufnehmen"}</Text>
-        </Button>
+        <>
+          {isProximityLoading && (
+            <Text className="text-muted-foreground mb-2 text-center text-sm">
+              Standort wird ermittelt…
+            </Text>
+          )}
+          {permissionDenied && (
+            <Text className="text-destructive mb-2 text-center text-sm">
+              Standortzugriff verweigert. Bitte in den Einstellungen aktivieren.
+            </Text>
+          )}
+          {!isProximityLoading && !permissionDenied && isNearby === false && (
+            <Text className="text-muted-foreground mb-2 text-center text-sm">
+              Du bist noch nicht nah genug am Zielort.
+            </Text>
+          )}
+          <Button
+            size="lg"
+            className="w-full"
+            onPress={handleOpenCamera}
+            disabled={isCapturing || isNearby === false || permissionDenied}
+          >
+            <Text>{isCapturing ? "Wird hochgeladen…" : "Foto aufnehmen"}</Text>
+          </Button>
+        </>
       )}
     </View>
   );

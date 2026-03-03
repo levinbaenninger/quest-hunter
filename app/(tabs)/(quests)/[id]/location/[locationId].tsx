@@ -48,7 +48,12 @@ const LocationContent = ({
   const [cancelDialogOpen, setCancelDialogOpen] = useState(false);
   const [completeDialogOpen, setCompleteDialogOpen] = useState(false);
 
-  const { isNearby, locationGranted } = useProximity(location.coordinates);
+  const {
+    isNearby,
+    isLoading: isProximityLoading,
+    permissionDenied,
+    locationGranted,
+  } = useProximity(location.coordinates);
 
   useEffect(() => {
     const subscription = BackHandler.addEventListener(
@@ -97,6 +102,8 @@ const LocationContent = ({
           locationId={locationId}
           isCompleted={isCompleted}
           isNearby={isNearby}
+          isProximityLoading={isProximityLoading}
+          permissionDenied={permissionDenied}
           nextLocationId={nextLocation?._id}
           onCompleteRequest={() => setCompleteDialogOpen(true)}
         />

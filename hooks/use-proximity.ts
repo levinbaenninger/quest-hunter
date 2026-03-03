@@ -8,7 +8,7 @@ type Coordinates = {
 };
 
 type ProximityResult = {
-  isNearby: boolean;
+  isNearby: boolean | null;
   isLoading: boolean;
   permissionDenied: boolean;
   locationGranted: boolean;
@@ -31,7 +31,7 @@ export function useProximity(
   target: Coordinates,
   radiusMeters = 20,
 ): ProximityResult {
-  const [isNearby, setIsNearby] = useState(false);
+  const [isNearby, setIsNearby] = useState<boolean | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [permissionDenied, setPermissionDenied] = useState(false);
   const [locationGranted, setLocationGranted] = useState(false);
@@ -42,45 +42,61 @@ export function useProximity(
     let cancelled = false;
 
     const start = async () => {
-      const { status } = await Location.requestForegroundPermissionsAsync();
-      if (cancelled) return;
+      try {
+        const { status } = await Location.requestForegroundPermissionsAsync();
+        if (cancelled) return;
 
-      if (status !== "granted") {
-        setPermissionDenied(true);
-        setIsLoading(false);
-        return;
-      }
-
-      setLocationGranted(true);
-
-      subscriptionRef.current = await Location.watchPositionAsync(
-        {
-          accuracy: Location.Accuracy.BestForNavigation,
-          distanceInterval: 5,
-          timeInterval: 5000,
-        },
-        (position) => {
-          if (cancelled) return;
-
-          const distance = haversineDistance(
-            {
-              latitude: position.coords.latitude,
-              longitude: position.coords.longitude,
-            },
-            target,
-          );
-
-          const nearby = distance <= radiusMeters;
-
-          if (nearby && !wasNearbyRef.current) {
-            Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-          }
-
-          wasNearbyRef.current = nearby;
-          setIsNearby(nearby);
+        if (status !== "granted") {
+          setPermissionDenied(true);
           setIsLoading(false);
-        },
-      );
+          return;
+        }
+
+        setLocationGranted(true);
+
+        const subscription = await Location.watchPositionAsync(
+          {
+            accuracy: Location.Accuracy.BestForNavigation,
+            distanceInterval: 5,
+            timeInterval: 5000,
+          },
+          (position) => {
+            if (cancelled) return;
+
+            const distance = haversineDistance(
+              {
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude,
+              },
+              target,
+            );
+
+            const nearby = distance <= radiusMeters;
+
+            if (nearby && !wasNearbyRef.current) {
+              Haptics.notificationAsync(
+                Haptics.NotificationFeedbackType.Success,
+              );
+            }
+
+            wasNearbyRef.current = nearby;
+            setIsNearby(nearby);
+            setIsLoading(false);
+          },
+        );
+
+        if (cancelled) {
+          subscription.remove();
+          return;
+        }
+
+        subscriptionRef.current = subscription;
+      } catch {
+        if (!cancelled) {
+          setIsLoading(false);
+          setPermissionDenied(true);
+        }
+      }
     };
 
     start();
