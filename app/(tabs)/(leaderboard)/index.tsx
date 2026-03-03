@@ -35,7 +35,12 @@ const LeaderboardScreen = () => {
     <View className="flex-1">
       <View className="gap-2 px-4 pt-4">
         {top3.map((entry, index) => (
-          <EntryRow key={entry._id} entry={entry} rank={index + 1} />
+          <EntryRow
+            key={entry._id}
+            entry={entry}
+            rank={index + 1}
+            highlight={entry.isCurrentUser}
+          />
         ))}
       </View>
       <Separator className="my-3" />

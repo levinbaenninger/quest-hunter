@@ -1,5 +1,6 @@
 import { Text } from "@/components/ui/text";
 import { api } from "@/convex/_generated/api";
+import { THEME } from "@/lib/theme";
 import { cn } from "@/lib/utils";
 import { useQuery } from "convex/react";
 import { View } from "react-native";
@@ -9,24 +10,29 @@ type Entry = NonNullable<
 >[number];
 
 const getMedalStyle = (rank: number) => {
-  if (rank === 1)
-    return { border: "border-yellow-400", text: "text-yellow-500" };
-  if (rank === 2) return { border: "border-gray-400", text: "text-gray-400" };
-  if (rank === 3) return { border: "border-amber-600", text: "text-amber-600" };
-  return {
-    border: "border-muted-foreground/30",
-    text: "text-muted-foreground",
-  };
+  switch (rank) {
+    case 1:
+      return { border: "border-yellow-400", text: "text-yellow-500" };
+    case 2:
+      return { border: "border-gray-400", text: "text-gray-400" };
+    case 3:
+      return { border: "border-amber-600", text: "text-amber-600" };
+    default:
+      return {
+        border: "border-muted-foreground/30",
+        text: "text-muted-foreground",
+      };
+  }
 };
 
 const EntryRow = ({
   entry,
   rank,
-  highlight = false,
+  highlight,
 }: {
   entry: Entry;
   rank: number;
-  highlight?: boolean;
+  highlight: boolean;
 }) => {
   const name = [entry.firstName, entry.lastName].filter(Boolean).join(" ");
   const medal = getMedalStyle(rank);
@@ -34,8 +40,9 @@ const EntryRow = ({
     <View
       className={cn(
         "bg-card flex-row items-center gap-4 rounded-xl px-4 py-3",
-        highlight ? "border-primary border-2" : "border-border border",
+        highlight ? "border-2" : "border-border border",
       )}
+      style={highlight ? { borderColor: THEME.primary } : undefined}
     >
       {rank <= 3 ? (
         <View
