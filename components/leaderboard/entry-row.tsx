@@ -5,6 +5,8 @@ import { cn } from "@/lib/utils";
 import { useQuery } from "convex/react";
 import { View } from "react-native";
 
+const ITEM_HEIGHT = 68;
+
 type Entry = NonNullable<
   ReturnType<typeof useQuery<typeof api.leaderboard.list>>
 >[number];
@@ -42,7 +44,11 @@ const EntryRow = ({
         "bg-card flex-row items-center gap-4 rounded-xl px-4 py-3",
         highlight ? "border-2" : "border-border border",
       )}
-      style={highlight ? { borderColor: THEME.primary } : undefined}
+      style={
+        highlight
+          ? { borderColor: THEME.primary, height: ITEM_HEIGHT }
+          : { height: ITEM_HEIGHT }
+      }
     >
       {rank <= 3 ? (
         <View
@@ -72,4 +78,4 @@ const EntryRow = ({
   );
 };
 
-export { EntryRow };
+export { EntryRow, ITEM_HEIGHT };

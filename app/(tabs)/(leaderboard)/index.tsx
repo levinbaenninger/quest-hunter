@@ -1,4 +1,4 @@
-import { EntryRow } from "@/components/leaderboard/entry-row";
+import { EntryRow, ITEM_HEIGHT } from "@/components/leaderboard/entry-row";
 import { EmptyState } from "@/components/ui/empty-state";
 import { LoadingState } from "@/components/ui/loading-state";
 import { Screen } from "@/components/ui/screen";
@@ -14,8 +14,6 @@ type ListItem = {
   >[number];
   rank: number;
 };
-
-const ITEM_HEIGHT = 68;
 
 const LeaderboardScreen = () => {
   const entries = useQuery(api.leaderboard.list);
