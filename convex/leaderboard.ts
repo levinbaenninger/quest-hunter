@@ -32,6 +32,6 @@ export const list = query({
         xp: xpByUser.get(user._id) ?? 0,
         isCurrentUser: user._id === currentUser._id,
       }))
-      .sort((a, b) => b.xp - a.xp);
+      .sort((a, b) => b.xp - a.xp || a._id.localeCompare(b._id));
   },
 });

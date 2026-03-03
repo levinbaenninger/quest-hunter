@@ -57,7 +57,13 @@ const EntryRow = ({
           </Text>
         </View>
       )}
-      <Text className="flex-1 font-medium">{name}</Text>
+      <Text
+        className="flex-1 font-medium"
+        numberOfLines={1}
+        ellipsizeMode="tail"
+      >
+        {name}
+      </Text>
       <Text className="text-muted-foreground font-semibold">
         {new Intl.NumberFormat("de-CH", { style: "decimal" }).format(entry.xp)}{" "}
         XP

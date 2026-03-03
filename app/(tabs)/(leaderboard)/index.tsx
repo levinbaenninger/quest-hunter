@@ -28,13 +28,14 @@ const LeaderboardScreen = () => {
   useEffect(() => {
     if (currentUserInTop3 || currentUserIndex < 3) return;
     const dataIndex = currentUserIndex - 3;
-    setTimeout(() => {
+    const timeoutId = setTimeout(() => {
       flatListRef.current?.scrollToIndex({
         index: dataIndex,
         animated: false,
         viewPosition: 0.5,
       });
     }, 100);
+    return () => clearTimeout(timeoutId);
   }, [entries, currentUserIndex, currentUserInTop3]);
 
   if (entries === undefined)
