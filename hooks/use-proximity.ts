@@ -42,6 +42,11 @@ export function useProximity(
     let cancelled = false;
 
     const start = async () => {
+      setIsNearby(false);
+      setPermissionDenied(false);
+      setLocationGranted(false);
+      setIsLoading(true);
+
       try {
         const { status } = await Location.requestForegroundPermissionsAsync();
         if (cancelled) return;

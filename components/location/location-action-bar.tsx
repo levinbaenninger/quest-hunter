@@ -117,7 +117,12 @@ export const LocationActionBar = ({
             size="lg"
             className="w-full"
             onPress={handleOpenCamera}
-            disabled={isCapturing || isNearby === false || permissionDenied}
+            disabled={
+              isCapturing ||
+              isProximityLoading ||
+              isNearby !== true ||
+              permissionDenied
+            }
           >
             <Text>{isCapturing ? "Wird hochgeladen…" : "Foto aufnehmen"}</Text>
           </Button>
