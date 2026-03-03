@@ -1,4 +1,4 @@
-import { SignInForm } from "@/components/ui/sign-in-form";
+import { SignInForm } from "@/components/auth/sign-in-form";
 import { View } from "react-native";
 
 export default function SignIn() {
