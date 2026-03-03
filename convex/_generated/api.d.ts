@@ -11,6 +11,7 @@
 import type * as _utils_auth from "../_utils/auth.js";
 import type * as _utils_user from "../_utils/user.js";
 import type * as http from "../http.js";
+import type * as leaderboard from "../leaderboard.js";
 import type * as locations from "../locations.js";
 import type * as quests from "../quests.js";
 import type * as users from "../users.js";
@@ -25,6 +26,7 @@ declare const fullApi: ApiFromModules<{
   "_utils/auth": typeof _utils_auth;
   "_utils/user": typeof _utils_user;
   http: typeof http;
+  leaderboard: typeof leaderboard;
   locations: typeof locations;
   quests: typeof quests;
   users: typeof users;
