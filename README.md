@@ -99,7 +99,7 @@ bun run format:fix  # Prettier auto-format
 
 This project enforces [Conventional Commits](https://www.conventionalcommits.org/) via commitlint. All commit messages must follow the format:
 
-```
+```text
 type(scope): message
 ```
 
