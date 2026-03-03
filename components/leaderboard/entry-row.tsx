@@ -28,11 +28,11 @@ const getMedalStyle = (rank: number) => {
 const EntryRow = ({
   entry,
   rank,
-  highlight,
+  highlight = false,
 }: {
   entry: Entry;
   rank: number;
-  highlight: boolean;
+  highlight?: boolean;
 }) => {
   const name = [entry.firstName, entry.lastName].filter(Boolean).join(" ");
   const medal = getMedalStyle(rank);
